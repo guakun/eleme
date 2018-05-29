@@ -9,7 +9,7 @@ Vue.use(VueRouter)
 export default new VueRouter({
   linkActiveClass: 'active',
   routes: [
-    { path: '/', component: goods },
+    { path: '/', redirect: '/goods' },
     { path: '/goods', component: goods },
     { path: '/ratings', component: ratings },
     { path: '/seller', component: seller }
