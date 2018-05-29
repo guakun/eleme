@@ -19,8 +19,25 @@
 
 <script>
 import header from 'components/header/header'
+import axios from 'axios'
+
+const ERR_OK = 0
+
 export default {
-  name: 'App',
+  data() {
+    return {
+      seller: {}
+    }
+  },
+  created() {
+    axios.get('/api/seller')
+      .then((response) => {
+        let {data} = response
+        if(data.errno === ERR_OK) {
+          this.seller = data.data
+        }
+      })
+  },
   components: {
     'v-header': header
   }
