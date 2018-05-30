@@ -4,6 +4,7 @@
   "description": "sell app",
   "author": "guakun <2306831967@qq.com>",
   "private": true,
+  "homepage": "https://guakun.github.io/eleme/",
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
