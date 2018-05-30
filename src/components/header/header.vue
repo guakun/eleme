@@ -131,7 +131,7 @@ export default {
     background rgba(7, 17, 27 0.2)
     .bulletin-title
       display inline-block
-      vertical-align top 
+      vertical-align top
       margin-top 7px
       width 22px
       height 12px
@@ -140,7 +140,7 @@ export default {
       background-repeat no-repeat
     .bulletin-text
       vertical-align top
-      margin 0 4px 
+      margin 0 4px
       font-size 10px
     .icon-keyboard_arrow_right
       position absolute
