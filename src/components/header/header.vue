@@ -171,7 +171,7 @@ export default {
         vertical-align top
       .icon-keyboard_arrow_right
         margin-left 2px
-        line-height 24px
+        line-height 26px
         font-size 10px
   .bulletin-wrapper
     position relative
