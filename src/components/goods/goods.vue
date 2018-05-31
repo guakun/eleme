@@ -1,8 +1,10 @@
 <template>
   <div class="goods">
-    <div class="menu-wrapper">
+    <div class="menu-wrapper" ref="menuWrapper">
       <ul>
-        <li class="menu-item" v-for="(item, index) in goods" :key="index">
+        <li class="menu-item" v-for="(item, index) in goods"
+          :class="{'current': currentIndex === index}"
+          :key="index" @click="selectMenu(index, $event)">
           <span class="text border-1px">
             <span v-show="item.type > 0" class="icon" :class="classMap[item.type]"></span>
             {{ item.name }}
@@ -10,9 +12,9 @@
         </li>
       </ul>
     </div>
-    <div class="foods-wrapper">
+    <div class="foods-wrapper" ref="foodWrapper">
       <ul>
-        <li class="foods-list" v-for="(item, index) in goods" :key="index">
+        <li class="foods-list foods-list-hock" v-for="(item, index) in goods" :key="index">
           <h1 class="title">{{ item.name }}</h1>
           <ul>
             <li class="food-item border-1px" v-for="(food, index) in item.foods" :key="index">
@@ -36,10 +38,14 @@
         </li>
       </ul>
     </div>
+    <shopcart></shopcart>
   </div>
 </template>
 <script>
 import axios from 'axios'
+import BScroll from 'better-scroll'
+
+import shopcart from 'components/shopcart/shopcart'
 
 const ERR_OK = 0
 
@@ -51,7 +57,53 @@ export default {
   },
   data() {
     return {
-      goods: []
+      goods: [],
+      listHeight: [],
+      scrollY: 0
+    }
+  },
+  computed: {
+    currentIndex() {
+      for(let i = 0; i < this.listHeight.length; i++) {
+        let height1 = this.listHeight[i]
+        let height2 = this.listHeight[i + 1]
+        if(!height2 || (this.scrollY >= height1 && this.scrollY < height2)) {
+          return i
+        }
+      }
+      return 0
+    }
+  },
+  methods: {
+    selectMenu(index, event) {
+      if(!event._constructed) {
+        return
+      }
+      let foodList = this.$refs.foodWrapper.getElementsByClassName('foods-list-hock')
+      let el = foodList[index]
+      this.foodScroll.scrollToElement(el, 300)
+    },
+    _initScroll() {
+      this.menuScroll = new BScroll(this.$refs.menuWrapper, {
+        click: true
+      })
+      this.foodScroll = new BScroll(this.$refs.foodWrapper, {
+        probeType: 3
+      })
+
+      this.foodScroll.on('scroll', (pos) => {
+        this.scrollY = Math.abs(Math.round(pos.y))
+      })
+    },
+    _calculateHeight() {
+      let foodList = this.$refs.foodWrapper.getElementsByClassName('foods-list-hock')
+      let height = 0
+      this.listHeight.push(height)
+      for(let i = 0; i < foodList.length; i++) {
+        let item = foodList[i]
+        height += item.clientHeight
+        this.listHeight.push(height)
+      }
     }
   },
   created() {
@@ -64,6 +116,15 @@ export default {
           this.goods = data.data
         }
       })
+  },
+  mounted() {
+    setTimeout(() => {
+      this._initScroll()
+      this._calculateHeight()
+    }, 20)
+  },
+  components: {
+    shopcart
   }
 }
 </script>
@@ -88,6 +149,14 @@ export default {
       height 54px
       padding 0 12px
       line-height 14px
+      &.current
+        position relative
+        z-index 10
+        margin-top -1px
+        background #fff
+        font-weight 700
+        .text
+          border-none()
       .icon
         display inline-block
         vertical-align top
@@ -147,6 +216,7 @@ export default {
           color rgb(147, 153, 159)
         .desc
           margin-bottom 8px
+          line-height 12px
         .extra
           .count
             margin-right 12px
