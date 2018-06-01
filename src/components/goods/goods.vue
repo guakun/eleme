@@ -42,7 +42,7 @@
       </ul>
     </div>
     <shopcart :delivery-price="seller.deliveryPrice"
-      :min-price="seller.minPrice"></shopcart>
+      :min-price="seller.minPrice" :select-foods="selectFood"></shopcart>
   </div>
 </template>
 <script>
@@ -68,6 +68,17 @@ export default {
     }
   },
   computed: {
+    selectFood() {
+      let foods = []
+      this.goods.forEach((good) => {
+        good.foods.forEach((food) => {
+          if(food.count) {
+            foods.push(food)
+          }
+        })
+      })
+      return foods
+    },
     currentIndex() {
       for(let i = 0; i < this.listHeight.length; i++) {
         let height1 = this.listHeight[i]

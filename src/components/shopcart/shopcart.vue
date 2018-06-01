@@ -17,6 +17,8 @@
         </div>
       </div>
     </div>
+    <div class="ball-container">
+    </div>
   </div>
 </template>
 
@@ -36,6 +38,17 @@ export default {
     minPrice: {
       type: Number,
       default: 0
+    }
+  },
+  data() {
+    return {
+      balls: [
+        {show: false},
+        {show: false},
+        {show: false},
+        {show: false},
+        {show: false}
+      ]
     }
   },
   computed: {
