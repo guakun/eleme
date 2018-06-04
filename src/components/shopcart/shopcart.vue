@@ -394,7 +394,7 @@ export default {
   background-color rgba(7, 17, 27, .6)
   &.fade-enter-active, &.fade-leave-active
     transition all .5s
-  .fade-enter, &.fade-leave-to
+  &.fade-enter, &.fade-leave-to
     opacity 0
     background-color rgba(7, 17, 27, 0 )
 </style>

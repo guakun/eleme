@@ -47,7 +47,7 @@
         :min-price="seller.minPrice" :select-foods="selectFoods"
         ref="shopcart"></shopcart>
     </div>
-    <food :food="selectedFood"></food>
+    <food :food="selectedFood" ref="food"></food>
   </div>
 </template>
 <script>
@@ -98,10 +98,12 @@ export default {
     }
   },
   methods: {
-    selectFood(food, $event) {
+    selectFood(food, event) {
       if(!event._constructed) {
         return
       }
+      this.selectedFood = food
+      this.$refs.food.show()
     },
     addFood(target) {
       this._drop(target)
